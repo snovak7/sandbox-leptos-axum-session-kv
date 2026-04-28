@@ -1,0 +1,5 @@
+[package]
+name = "leptos-axum-session-kv"
+# bin-features used for server, lib-features used for WASM client
+bin-features = ["standalone"]
+lib-features = ["hydrate"]
