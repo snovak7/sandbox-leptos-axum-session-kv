@@ -1,0 +1,14 @@
+{
+  "name": "leptos-axum-session-kv",
+  "main": "build/worker/shim.mjs",
+  "compatibility_date": "2024-01-01",
+  "kv_namespaces": [
+    {
+      "binding": "SESSION_KV",
+      "id": "YOUR_KV_NAMESPACE_ID"
+    }
+  ],
+  "build": {
+    "command": "cargo build --release --no-default-features --features cloudflare --target wasm32-unknown-unknown"
+  }
+}

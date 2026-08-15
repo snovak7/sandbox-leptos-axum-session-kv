@@ -1,0 +1,70 @@
+[package]
+name = "leptos-axum-session-kv"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["standalone"]
+standalone = [
+    "dep:deadpool-redis",
+    "dep:redis",
+    "dep:tokio",
+    "dep:axum",
+    "dep:axum-extra",
+    "dep:leptos_axum",
+    "dep:tower",
+    "dep:tower-http",
+    "dep:tracing-subscriber",
+    "ssr",
+]
+cloudflare = ["dep:worker", "ssr"]
+ssr = ["leptos/ssr", "leptos_router/ssr", "leptos_meta/ssr", "dep:rand", "dep:bs58"]
+hydrate = ["leptos/hydrate", "dep:wasm-bindgen"]
+
+[dependencies]
+leptos        = { version = "0.8", features = ["nonce"] }
+leptos_router = { version = "0.8" }
+leptos_meta   = { version = "0.8" }
+leptos_axum   = { version = "0.8", optional = true }
+axum          = { version = "0.8", optional = true }
+axum-extra    = { version = "0.9", features = ["cookie"], optional = true }
+tokio         = { version = "1", features = ["full"], optional = true }
+serde         = { version = "1", features = ["derive"] }
+serde_json    = "1"
+async-trait   = "0.1"
+bs58          = { version = "0.5", optional = true }
+rand          = { version = "0.8", optional = true }
+getrandom     = { version = "0.2", features = ["js"] }
+getrandom3    = { package = "getrandom", version = "0.3", features = ["wasm_js"] }
+getrandom4    = { package = "getrandom", version = "0.4", features = ["wasm_js"] }
+thiserror     = "2"
+time          = { version = "0.3", features = ["serde"] }
+tower         = { version = "0.5", optional = true }
+tower-http    = { version = "0.6", features = ["fs"], optional = true }
+tracing       = "0.1"
+tracing-subscriber = { version = "0.3", optional = true }
+wasm-bindgen  = { version = "0.2", optional = true }
+
+# Standalone backend
+deadpool-redis = { version = "0.18", optional = true }
+redis          = { version = "0.27", features = ["tokio-comp"], optional = true }
+
+# Cloudflare Workers backend
+worker = { version = "0.8", optional = true }
+
+[package.metadata.leptos]
+output-name = "leptos-axum-session-kv"
+site-root = "target/site"
+site-pkg-dir = "pkg"
+style-file = "style/main.scss"
+assets-dir = "public"
+site-addr = "127.0.0.1:3000"
+reload-port = 3001
+browserquery = "defaults"
+watch = false
+env = "DEV"
+bin-features = ["standalone"]
+lib-features = ["hydrate"]
